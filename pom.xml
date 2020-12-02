@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Тег project является базовым и содержит всю информацию о проекте -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.example</groupId> <!-- доменное имя компании -->
+    <artifactId>mavenLesson</artifactId> <!-- название проекта -->
+    <version>1.0-SNAPSHOT</version> <!-- версия проекта (если присутствует SNAPSHOT, то это означает, что проект может меняться -->
+    <packaging>jar</packaging>
+
+    <!-- для формирования документации -->
+    <name>mavenLesson</name> <!-- имя артифактори проекта -->
+    <url>http://site.su</url> <!-- ссылка на сайт -->
+    <description>description maven lesson</description> <!-- описание проекта -->
+
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> <!-- кодировка для ресурсов (плагинов) -->
+        <!-- совместимость с java 1.8 для параметров плагина -->
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <!-- поиск в мавен репозитории junit зависимости версии 4.11 -->
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version><!-- версия зависимости -->
+            <!-- параметр в этом теге означает, что зависимость доступна только на этапах компиляции и выполнения теста -->
+            <!-- более подробно https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html -->
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.0-801.jdbc4</version>
+        </dependency>
+    </dependencies>
+
+    <!-- сборка проекта -->
+    <build>
+        <!-- имя jar фаила после компиляции -->
+        <finalName>${project.name}-${project.version}</finalName>
+        <plugins>
+            <!-- плагин копирования ресурсов -->
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.6</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>validate</phase> <!-- на какой фазе будет производиться работа плагина -->
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <!-- конфигурация плагина -->
+                        <configuration>
+                            <!-- в какую папку мы будем переносиь фаилы -->
+                            <outputDirectory>${basedir}/target</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <!-- откуда мы будем переносить фаилы -->
+                                    <directory>src/main/resources</directory>
+                                    <filtering>true</filtering>
+                                    <includes>
+                                        <!-- расширения фаила -->
+                                        <include>**/*.cmd</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
